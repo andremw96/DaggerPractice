@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import com.andreamw96.daggerpractice.SessionManager
 import com.andreamw96.daggerpractice.models.User
 import com.andreamw96.daggerpractice.network.auth.AuthApi
 import com.andreamw96.daggerpractice.utils.logd
@@ -12,20 +13,19 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class AuthViewModel @Inject constructor(var authApi: AuthApi) : ViewModel() {
-
-    private var authUser: MediatorLiveData<AuthResource<User>> = MediatorLiveData()
+class AuthViewModel @Inject constructor(var authApi: AuthApi, var sessionManager: SessionManager) : ViewModel() {
 
     init {
         logd("Auth View Model is working")
     }
 
     fun authenticateWithId(userId: Int) {
-        // tell the UI that request attempting to be made
-        authUser.value = AuthResource.loading(null)
+        logd("authenticateWithId: attempting to login")
+        sessionManager.authenticateWithId(queryUserId(userId))
+    }
 
-        // convert flowable to live data object
-        val source: LiveData<AuthResource<User>> = LiveDataReactiveStreams.fromPublisher(
+    private fun queryUserId(userId: Int) : LiveData<AuthResource<User>> {
+        return LiveDataReactiveStreams.fromPublisher(
             authApi.getUser(userId)
                 .onErrorReturn {
                     val errorUser = User()
@@ -40,15 +40,10 @@ class AuthViewModel @Inject constructor(var authApi: AuthApi) : ViewModel() {
                 }
                 .subscribeOn(Schedulers.io())
         )
-
-        authUser.addSource(source) { t ->
-            authUser.value = t
-            authUser.removeSource(source)
-        }
     }
 
-    fun observeUser(): LiveData<AuthResource<User>> {
-        return authUser
+    fun observeAuthState(): LiveData<AuthResource<User>> {
+        return sessionManager.getAuthUser()
     }
 
 }

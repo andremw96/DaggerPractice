@@ -63,7 +63,7 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
     }
 
     private fun subscribeObservers() {
-        viewModel.observeUser().observe(this, Observer<AuthResource<User>> { userAuthResource ->
+        viewModel.observeAuthState().observe(this, Observer<AuthResource<User>> { userAuthResource ->
             if(userAuthResource != null) {
                 when(userAuthResource.status) {
                     AuthResource.AuthStatus.LOADING -> showProgressBar(true)
