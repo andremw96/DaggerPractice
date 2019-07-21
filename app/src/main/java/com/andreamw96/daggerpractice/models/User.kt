@@ -3,11 +3,11 @@ package com.andreamw96.daggerpractice.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class User(
+class User(
 
     @SerializedName("id")
     @Expose
-    var id : Int = -1,
+    var id : Int = 0,
 
     @SerializedName("username")
     @Expose
@@ -19,5 +19,5 @@ data class User(
 
     @SerializedName("website")
     @Expose
-    var website : String
+    var website : String = ""
 )

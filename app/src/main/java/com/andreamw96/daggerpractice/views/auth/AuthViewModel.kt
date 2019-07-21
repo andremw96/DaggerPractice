@@ -1,40 +1,53 @@
 package com.andreamw96.daggerpractice.views.auth
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
 import com.andreamw96.daggerpractice.models.User
 import com.andreamw96.daggerpractice.network.auth.AuthApi
-import io.reactivex.disposables.Disposable
+import com.andreamw96.daggerpractice.utils.logd
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
+
 class AuthViewModel @Inject constructor(var authApi: AuthApi) : ViewModel() {
 
-    private var TAG = "AuthViewModel"
-
-    private var authUser : MediatorLiveData<User> = MediatorLiveData()
+    private var authUser: MediatorLiveData<AuthResource<User>> = MediatorLiveData()
 
     init {
-        Log.d(TAG, "Auth View Model is working")
+        logd("Auth View Model is working")
     }
 
     fun authenticateWithId(userId: Int) {
+        // tell the UI that request attempting to be made
+        authUser.value = AuthResource.loading(null)
+
         // convert flowable to live data object
-        val source : LiveData<User> = LiveDataReactiveStreams.fromPublisher(
+        val source: LiveData<AuthResource<User>> = LiveDataReactiveStreams.fromPublisher(
             authApi.getUser(userId)
+                .onErrorReturn {
+                    val errorUser = User()
+                    errorUser.id = -1
+                    errorUser
+                }
+                .map{
+                    if(it.id == -1) {
+                        AuthResource.error("Could not authenticated", null)
+                    }
+                    AuthResource.authenticated(it)
+                }
                 .subscribeOn(Schedulers.io())
         )
 
-        authUser.addSource(source, object : Observer<User>{
-            override fun onChanged(t: User?) {
-                authUser.value = t
-                authUser.removeSource(source)
-            }
-
-        })
+        authUser.addSource(source) { t ->
+            authUser.value = t
+            authUser.removeSource(source)
+        }
     }
 
-    fun observeUser() : LiveData<User> {
+    fun observeUser(): LiveData<AuthResource<User>> {
         return authUser
     }
 
