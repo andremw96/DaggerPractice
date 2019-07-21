@@ -11,12 +11,4 @@ abstract class ActivityBuilderModule {
     // make authActivity, is a potential client that can inject dependencies
     @ContributesAndroidInjector
     abstract fun contributeAuthActivity() : AuthActivity
-
-    @Module
-    companion object {
-        @Provides
-        @JvmStatic
-        fun someString() : String = "sadasdasd"
-    }
-
 }
