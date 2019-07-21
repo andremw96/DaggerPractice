@@ -11,12 +11,11 @@ import javax.inject.Inject
 
 class AuthActivity : DaggerAppCompatActivity() {
 
-    @Inject
-    lateinit var logo : Drawable
+    @set:Inject
+    var logo : Drawable? = null
 
     @Inject
     lateinit var requestManager: RequestManager
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
