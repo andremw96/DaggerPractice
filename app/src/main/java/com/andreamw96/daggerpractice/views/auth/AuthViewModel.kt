@@ -2,16 +2,19 @@ package com.andreamw96.daggerpractice.views.auth
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.andreamw96.daggerpractice.network.auth.AuthApi
 import javax.inject.Inject
 
-class AuthViewModel @Inject constructor() : ViewModel() {
-
-    @Inject
-    lateinit var string: String
+class AuthViewModel @Inject constructor(authApi: AuthApi) : ViewModel() {
 
     init {
         Log.d("AuthViewModel", "Auth View Model is working")
-        Log.d("AuthViewModel", string)
+
+        if (authApi == null) {
+            Log.d("AuthViewModel","auth api is NULL")
+        } else {
+            Log.d("AuthViewModel","auth api is NOT NULL")
+        }
     }
 
 }
