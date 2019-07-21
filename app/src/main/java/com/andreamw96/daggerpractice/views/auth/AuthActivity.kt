@@ -1,5 +1,6 @@
 package com.andreamw96.daggerpractice.views.auth
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
@@ -12,6 +13,7 @@ import com.andreamw96.daggerpractice.R
 import com.andreamw96.daggerpractice.models.User
 import com.andreamw96.daggerpractice.utils.logd
 import com.andreamw96.daggerpractice.viewmodels.ViewModelProvidersFactory
+import com.andreamw96.daggerpractice.views.main.MainActivity
 import com.bumptech.glide.RequestManager
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_auth.*
@@ -62,6 +64,11 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
         viewModel.authenticateWithId( (user_id_input.text.toString()).toInt() )
     }
 
+    private fun onLoginSuccess() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
     private fun subscribeObservers() {
         viewModel.observeAuthState().observe(this, Observer<AuthResource<User>> { userAuthResource ->
             if(userAuthResource != null) {
@@ -70,6 +77,7 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
                     AuthResource.AuthStatus.AUTHENTICATED -> {
                         showProgressBar(false)
                         logd("onChanged: LOGIN SUCCESS ${userAuthResource.data?.email}")
+                        onLoginSuccess()
                     }
                     AuthResource.AuthStatus.ERROR -> {
                         showProgressBar(false)
