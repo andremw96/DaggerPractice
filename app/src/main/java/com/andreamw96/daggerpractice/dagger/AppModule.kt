@@ -4,6 +4,7 @@ import android.app.Application
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.andreamw96.daggerpractice.R
+import com.andreamw96.daggerpractice.SessionManager
 import com.andreamw96.daggerpractice.utils.BASE_URL
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -50,5 +51,11 @@ class AppModule {
     @Provides
     fun provideAppDrawable(application: Application) : Drawable? {
         return ContextCompat.getDrawable(application, R.drawable.logo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSessionManager() : SessionManager {
+        return SessionManager()
     }
 }
