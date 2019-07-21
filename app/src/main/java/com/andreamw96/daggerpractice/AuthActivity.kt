@@ -9,7 +9,7 @@ import javax.inject.Inject
 class AuthActivity : DaggerAppCompatActivity() {
 
     @Inject
-    private lateinit var asdasdasdasdjasd: String
+    lateinit var asdasdasdasdjasd: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

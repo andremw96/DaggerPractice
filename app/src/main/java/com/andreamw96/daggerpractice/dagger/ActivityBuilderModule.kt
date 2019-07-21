@@ -12,8 +12,11 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector
     abstract fun contributeAuthActivity() : AuthActivity
 
-    @Provides
-    fun someString() : String {
-        return "this is a test string"
+    @Module
+    companion object {
+        @Provides
+        @JvmStatic
+        fun someString() : String = "sadasdasd"
     }
+
 }
