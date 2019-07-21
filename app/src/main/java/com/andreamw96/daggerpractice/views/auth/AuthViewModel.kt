@@ -1,40 +1,41 @@
 package com.andreamw96.daggerpractice.views.auth
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.andreamw96.daggerpractice.models.User
 import com.andreamw96.daggerpractice.network.auth.AuthApi
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AuthViewModel @Inject constructor(authApi: AuthApi) : ViewModel() {
+class AuthViewModel @Inject constructor(var authApi: AuthApi) : ViewModel() {
 
     private var TAG = "AuthViewModel"
 
+    private var authUser : MediatorLiveData<User> = MediatorLiveData()
+
     init {
         Log.d(TAG, "Auth View Model is working")
+    }
 
-        authApi.getUser(1)
-            .toObservable()
-            .subscribeOn(Schedulers.io())
-            .subscribe(object : io.reactivex.Observer<User> {
-                override fun onSubscribe(d: Disposable) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
+    fun authenticateWithId(userId: Int) {
+        // convert flowable to live data object
+        val source : LiveData<User> = LiveDataReactiveStreams.fromPublisher(
+            authApi.getUser(userId)
+                .subscribeOn(Schedulers.io())
+        )
 
-                override fun onNext(t: User) {
-                    Log.d(TAG, "onNext: ${t.email}")
-                }
+        authUser.addSource(source, object : Observer<User>{
+            override fun onChanged(t: User?) {
+                authUser.value = t
+                authUser.removeSource(source)
+            }
 
-                override fun onError(e: Throwable) {
-                    Log.e(TAG, "onError: $e")
-                }
+        })
+    }
 
-                override fun onComplete() {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-            })
+    fun observeUser() : LiveData<User> {
+        return authUser
     }
 
 }
