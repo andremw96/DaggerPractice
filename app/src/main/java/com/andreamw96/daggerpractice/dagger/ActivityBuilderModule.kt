@@ -9,6 +9,7 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBuilderModule {
+    //contributeandroidinjcctor creates subcomponent
 
     // make authActivity, is a potential client that can inject dependencies
     @ContributesAndroidInjector(

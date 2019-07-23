@@ -18,8 +18,8 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var sessionManager: SessionManager
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         subscribeObserver()
     }
 

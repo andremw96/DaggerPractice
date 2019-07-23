@@ -17,13 +17,10 @@ class SessionManager @Inject constructor() {
     fun authenticateWithId(source: LiveData<AuthResource<User>>) {
         if(cachedUser != null) {
             cachedUser.value = AuthResource.loading(null)
-            cachedUser.addSource(source, object : Observer<AuthResource<User>> {
-                override fun onChanged(t: AuthResource<User>?) {
-                    cachedUser.value = t
-                    cachedUser.removeSource(source)
-                }
-
-            })
+            cachedUser.addSource(source) { t ->
+                cachedUser.value = t
+                cachedUser.removeSource(source)
+            }
         } else {
             logd("authenticateWithId: previous session detected. Retrieving user from cache")
         }

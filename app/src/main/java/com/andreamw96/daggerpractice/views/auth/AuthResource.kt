@@ -1,7 +1,8 @@
 package com.andreamw96.daggerpractice.views.auth
 
+
 // A generic class that contains data and status about loading this data.
-class AuthResource<T>(val status: AuthStatus, val data: T?, val message: String?) {
+class AuthResource<T>(var status: AuthStatus, var data: T?, var message: String?) {
 
     enum class AuthStatus {
         AUTHENTICATED, ERROR, LOADING, NOT_AUTHENTICATED
@@ -26,3 +27,4 @@ class AuthResource<T>(val status: AuthStatus, val data: T?, val message: String?
     }
 
 }
+
