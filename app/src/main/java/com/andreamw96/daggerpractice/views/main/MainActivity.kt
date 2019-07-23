@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.andreamw96.daggerpractice.BaseActivity
 import com.andreamw96.daggerpractice.R
+import com.andreamw96.daggerpractice.views.main.profile.ProfileFragment
 
 class MainActivity : BaseActivity() {
 
@@ -16,6 +17,14 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
+
+        testFragment()
+    }
+
+    private fun testFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, ProfileFragment())
+            .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
