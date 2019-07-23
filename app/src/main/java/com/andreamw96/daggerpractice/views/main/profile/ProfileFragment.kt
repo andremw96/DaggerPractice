@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.andreamw96.daggerpractice.R
+import com.andreamw96.daggerpractice.models.User
 import com.andreamw96.daggerpractice.utils.logd
 import com.andreamw96.daggerpractice.viewmodels.ViewModelProvidersFactory
+import com.andreamw96.daggerpractice.views.auth.AuthResource
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_profile.*
 import javax.inject.Inject
 
 class ProfileFragment : DaggerFragment() {
@@ -31,8 +35,40 @@ class ProfileFragment : DaggerFragment() {
 
         logd("ProfileFragment was created")
         profileViewModel = ViewModelProviders.of(this, viewModelProvidersFactory).get(ProfileViewModel::class.java)
+
+        subscribeObservers()
     }
 
+    private fun subscribeObservers() {
+        // why do this? remove observer dll
+        // fragment has their own lifecycle, so we need to make sure that we remove the previous observer before assigning
+        // the new one
+        profileViewModel.getAuthentitacedUser().removeObservers(viewLifecycleOwner)
+        profileViewModel.getAuthentitacedUser().observe(viewLifecycleOwner, Observer {
+            if(it != null) {
+                when(it.status) {
+                    AuthResource.AuthStatus.AUTHENTICATED -> {
+                        setUserDetails(it.data)
+                    }
 
+                    AuthResource.AuthStatus.ERROR -> {
+                        setErrorDetails(it.message)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun setErrorDetails(message: String?) {
+        email.text = message
+        username.text = "error"
+        website.text = "error"
+    }
+
+    private fun setUserDetails(data: User?) {
+        email.text = data?.email
+        username.text = data?.username
+        website.text = data?.website
+    }
 
 }
