@@ -3,6 +3,7 @@ package com.andreamw96.daggerpractice.dagger
 import com.andreamw96.daggerpractice.dagger.auth.AuthModule
 import com.andreamw96.daggerpractice.dagger.auth.AuthViewModelModule
 import com.andreamw96.daggerpractice.dagger.main.MainFragmentBuilderModule
+import com.andreamw96.daggerpractice.dagger.main.MainViewModelsModule
 import com.andreamw96.daggerpractice.views.auth.AuthActivity
 import com.andreamw96.daggerpractice.views.main.MainActivity
 import dagger.Module
@@ -23,7 +24,8 @@ abstract class ActivityBuilderModule {
 
     @ContributesAndroidInjector (
         modules = [
-            MainFragmentBuilderModule::class
+            MainFragmentBuilderModule::class,
+            MainViewModelsModule::class
         ]
     )
     abstract fun contributeMainActivity() : MainActivity
