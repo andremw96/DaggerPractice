@@ -1,5 +1,6 @@
 package com.andreamw96.daggerpractice.dagger.main
 
+import com.andreamw96.daggerpractice.views.main.post.PostsFragment
 import com.andreamw96.daggerpractice.views.main.profile.ProfileFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -9,4 +10,7 @@ abstract class MainFragmentBuilderModule {
 
     @ContributesAndroidInjector
     abstract fun contributesProfileFragment() : ProfileFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributesPostsFragment() : PostsFragment
 }
