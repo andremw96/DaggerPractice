@@ -8,3 +8,8 @@ import com.andreamw96.daggerpractice.BuildConfig
 fun Any.logd(message: String) {
     if(BuildConfig.DEBUG) Log.d(this::class.java.simpleName, message)
 }
+
+// Debug Log
+fun Any.loge(message: String) {
+    if(BuildConfig.DEBUG) Log.e(this::class.java.simpleName, message)
+}
