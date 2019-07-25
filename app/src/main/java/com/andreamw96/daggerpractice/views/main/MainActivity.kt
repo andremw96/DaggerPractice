@@ -6,12 +6,15 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.view.GravityCompat
 import com.andreamw96.daggerpractice.BaseActivity
 import com.andreamw96.daggerpractice.R
 import com.andreamw96.daggerpractice.views.main.post.PostsFragment
 import com.andreamw96.daggerpractice.views.main.profile.ProfileFragment
+import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,5 +44,21 @@ class MainActivity : BaseActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+        when(menuItem.itemId) {
+            R.id.nav_profile -> {
+
+            }
+
+            R.id.nav_posts -> {
+
+            }
+        }
+
+        menuItem.isChecked = true
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
     }
 }

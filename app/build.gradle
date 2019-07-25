@@ -64,6 +64,10 @@ dependencies {
     //reactive stream, convert observable to livedata
     implementation "android.arch.lifecycle:reactivestreams:1.1.1"
 
+    //navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:2.1.0-beta02"
+    implementation "androidx.navigation:navigation-ui-ktx:2.1.0-beta02"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
