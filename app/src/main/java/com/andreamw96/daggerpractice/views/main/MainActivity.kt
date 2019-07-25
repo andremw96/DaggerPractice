@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.andreamw96.daggerpractice.BaseActivity
@@ -46,6 +47,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.logout -> {
                 sessionManager.logout()
             }
+
+            R.id.home -> {
+                return if(drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                    true
+                } else {
+                    false
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -53,16 +63,36 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when(menuItem.itemId) {
             R.id.nav_profile -> {
-                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.profileScreen)
+
+                // clear the backstack whenever we navigate to the navigation screen
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.main, true)
+                    .build()
+
+                Navigation.findNavController(this, R.id.nav_host_fragment).
+                    navigate(R.id.profileScreen,
+                        null,
+                        navOptions)
             }
 
             R.id.nav_posts -> {
-                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.postsScreen)
+                if(isValidDestination(R.id.postsScreen)) {
+                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.postsScreen)
+                }
             }
         }
 
         menuItem.isChecked = true
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun isValidDestination(destination: Int) : Boolean {
+        // if the destination is ON then i can do the trancaction
+        return destination != Navigation.findNavController(this, R.id.nav_host_fragment).currentDestination?.id
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment), drawer_layout)
     }
 }
