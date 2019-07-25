@@ -2,11 +2,14 @@ package com.andreamw96.daggerpractice.views.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.andreamw96.daggerpractice.BaseActivity
 import com.andreamw96.daggerpractice.R
 import com.andreamw96.daggerpractice.views.main.post.PostsFragment
@@ -22,13 +25,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
 
-        testFragment()
+        init()
     }
 
-    private fun testFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, PostsFragment())
-            .commit()
+    private fun init() {
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
+        NavigationUI.setupWithNavController(nav_view, navController)
+        nav_view.setNavigationItemSelectedListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -49,11 +53,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when(menuItem.itemId) {
             R.id.nav_profile -> {
-
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.profileScreen)
             }
 
             R.id.nav_posts -> {
-
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.postsScreen)
             }
         }
 

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -13,7 +12,6 @@ import com.andreamw96.daggerpractice.R
 import com.andreamw96.daggerpractice.models.User
 import com.andreamw96.daggerpractice.utils.logd
 import com.andreamw96.daggerpractice.viewmodels.ViewModelProvidersFactory
-import com.andreamw96.daggerpractice.views.main.MainActivity
 import com.bumptech.glide.RequestManager
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_auth.*

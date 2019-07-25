@@ -6,7 +6,6 @@ import com.andreamw96.daggerpractice.dagger.main.MainFragmentBuilderModule
 import com.andreamw96.daggerpractice.dagger.main.MainModule
 import com.andreamw96.daggerpractice.dagger.main.MainViewModelsModule
 import com.andreamw96.daggerpractice.views.auth.AuthActivity
-import com.andreamw96.daggerpractice.views.main.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
