@@ -64,7 +64,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when(menuItem.itemId) {
             R.id.nav_profile -> {
 
-                // clear the backstack whenever we navigate to the navigation screen
+                // clear the backstack whenever we navigate to the profile screen
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(R.id.main, true)
                     .build()
@@ -88,7 +88,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun isValidDestination(destination: Int) : Boolean {
-        // if the destination is ON then i can do the trancaction
+        // if the destination is currently ON then don't do the transaction
         return destination != Navigation.findNavController(this, R.id.nav_host_fragment).currentDestination?.id
     }
 
