@@ -12,10 +12,12 @@ import com.andreamw96.daggerpractice.R
 import com.andreamw96.daggerpractice.models.User
 import com.andreamw96.daggerpractice.utils.logd
 import com.andreamw96.daggerpractice.viewmodels.ViewModelProvidersFactory
+import com.andreamw96.daggerpractice.views.main.MainActivity
 import com.bumptech.glide.RequestManager
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_auth.*
 import javax.inject.Inject
+import javax.inject.Named
 
 class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
 
@@ -30,6 +32,14 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
     @Inject
     lateinit var requestManager: RequestManager
 
+    @Inject
+    @Named("app_user")
+    lateinit var userNumber1: User
+
+    @Inject
+    @Named("auth_user")
+    lateinit var userNumber2: User
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
@@ -39,6 +49,12 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
         viewModel = ViewModelProviders.of(this, viewModelProvidersFactory).get(AuthViewModel::class.java)
 
         subscribeObservers()
+
+        // print memory adres of usernumber1 & 2
+        //userNumber1 is singleton from appComponent scope so it will be reused
+        logd("onCreate $userNumber1")
+        //userNumber2 is scoped by AuthScope so it will recreate whenever the authactivity recreate
+        logd("onCreate $userNumber2")
 
         login_button.setOnClickListener(this)
     }
