@@ -1,4 +1,4 @@
-package com.andreamw96.daggerpractice.dagger.main
+package com.andreamw96.daggerpractice.dagger.main.profile
 
 import androidx.lifecycle.ViewModel
 import com.andreamw96.daggerpractice.dagger.ViewModelKey
@@ -9,16 +9,11 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-abstract class MainViewModelsModule {
+abstract class ProfileViewModelsModule {
 
     @Binds
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     abstract fun bindProfileViewModel(viewModel: ProfileViewModel) : ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(PostsViewModel::class)
-    abstract fun bindPostsViewModel(viewModel: PostsViewModel) : ViewModel
 
 }

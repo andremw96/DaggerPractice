@@ -6,21 +6,20 @@ import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
 class AuthModule {
 
-    @Singleton
+    @AuthScope
     @Provides
     @Named("auth_user")
-    fun someUser() : User {
+    fun someUser(): User {
         return User()
     }
 
     @AuthScope
     @Provides
-    fun provideAuthApi(retrofit: Retrofit) : AuthApi {
+    fun provideAuthApi(retrofit: Retrofit): AuthApi {
         return retrofit.create(AuthApi::class.java)
     }
 }

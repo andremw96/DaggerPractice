@@ -1,4 +1,4 @@
-package com.andreamw96.daggerpractice.dagger.main
+package com.andreamw96.daggerpractice.dagger.main.posts
 
 import com.andreamw96.daggerpractice.network.main.MainApi
 import com.andreamw96.daggerpractice.views.main.post.PostsRecyclerAdapter
@@ -7,15 +7,15 @@ import dagger.Provides
 import retrofit2.Retrofit
 
 @Module
-class MainModule {
+class PostModule {
 
-    @MainScope
+    @PostsScope
     @Provides
     fun provideMainApi(retrofit: Retrofit) : MainApi {
         return retrofit.create(MainApi::class.java)
     }
 
-    @MainScope
+    @PostsScope
     @Provides
     fun provideAdapter() : PostsRecyclerAdapter {
         return PostsRecyclerAdapter()

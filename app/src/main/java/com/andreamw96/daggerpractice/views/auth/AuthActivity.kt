@@ -32,12 +32,11 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
     @Inject
     lateinit var requestManager: RequestManager
 
-    @Inject
-    @Named("app_user")
+
+    @field: [Inject Named("app_user")]
     lateinit var userNumber1: User
 
-    @Inject
-    @Named("auth_user")
+    @field: [Inject Named("auth_user")]
     lateinit var userNumber2: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
